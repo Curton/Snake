@@ -70,19 +70,29 @@ int get_direction()
 
 int main()
 {
-    int a[10][10] = {0};
-    int keyboard_direction = 1;
-    //int snake_length = 3;
-    int snake_direction = 0;
+    int a[10][10] = {0};             //snake pixel point location
+    int pixel_live[10][10] = {0};    //pixel live time
+    int keyboard_direction = 1;      //
+    int snake_length = 3;            //
+    int snake_direction = 0;         //snake movement direction
 
-    int snake_head_x = 0;
-    int snake_head_y = 0;
+    int snake_head_x = 0;            //location of snake head of x
+    int snake_head_y = 0;            //location of snake head of y
+    int food_location[10][10] = {0}; //
+    int if_get_direction = 0;        //
+
+
     //set snake head location
     a[snake_head_x][snake_head_y] = 1;
     printscreen(a,0);
     do
     {
-        keyboard_direction = get_direction();
+//        if(if_get_direction == 0)
+//        {
+            keyboard_direction = get_direction();
+//            if_get_direction = 1;
+//        }
+
         if(keyboard_direction == 77)//RIGHT
         {
 
@@ -122,8 +132,14 @@ int main()
                 a[snake_head_x][snake_head_y-1] = 1;
                 snake_head_y -= 1;
             }
-            printscreen(a,0);
+
         }
+        printscreen(a,0);
+//        a[snake_head_x][snake_head_y] = 0;
+//        a[snake_head_x][snake_head_y+1] = 1;
+//        snake_head_y += 1;
+//        printscreen(a,1);
+
 
 
     }
