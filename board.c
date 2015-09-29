@@ -24,11 +24,11 @@ int printscreen(int a[10][10], int t)
     int k = 0;
     int width = 10;
     system("cls");
-    for(i=0; i<width+2; i++)printf("##");
+    for(i=0; i<width+1; i++)printf("##");
     printf("\b ");
     for(j=0; j<width; j++)
     {
-        printf("\n# ");
+        printf("\n#");
         for(k=0; k<width; k++)
         {
             if(a[j][k] == 1)
@@ -41,10 +41,10 @@ int printscreen(int a[10][10], int t)
             }
             //printf("%d ",a[j][k]);
         }
-        printf("#");
+        printf("\b#");
     }
     printf("\n");
-    for(i=0; i<width+2; i++)printf("##");
+    for(i=0; i<width+1; i++)printf("##");
     printf("\b ");
 
     delay(t);
@@ -52,6 +52,90 @@ int printscreen(int a[10][10], int t)
 
 }
 
+// 72->UP   80->DOWN    75->LEFT    77->RIGHT   0->ERROR
+int get_direction()
+{
+    int key_1 = getch();
+    int key_2 = 0;
+    if(key_1 == 224)
+    {
+        key_2 = getch();
+    }
+    else if(key_1 == 72||key_1 == 75||key_1 == 77||key_1 == 80)
+    {
+        key_2 = key_1;
+    }
+    return key_2;
+}
+
+int main()
+{
+    int a[10][10] = {0};
+    int keyboard_direction = 1;
+    //int snake_length = 3;
+    int snake_direction = 0;
+
+    int snake_head_x = 0;
+    int snake_head_y = 0;
+    //set snake head location
+    a[snake_head_x][snake_head_y] = 1;
+    printscreen(a,0);
+    do
+    {
+        keyboard_direction = get_direction();
+        if(keyboard_direction == 77)//RIGHT
+        {
+
+            if(snake_head_y != 9)
+            {
+                a[snake_head_x][snake_head_y] = 0;
+                a[snake_head_x][snake_head_y+1] = 1;
+                snake_head_y += 1;
+            }
+            printscreen(a,0);
+        }
+        else if(keyboard_direction == 80)//DOWN
+        {
+            if(snake_head_x != 9)
+            {
+                a[snake_head_x][snake_head_y] = 0;
+                a[snake_head_x+1][snake_head_y] = 1;
+                snake_head_x += 1;
+            }
+            printscreen(a,0);
+        }
+        else if(keyboard_direction == 72)//UP
+        {
+            if(snake_head_x != 0)
+            {
+                a[snake_head_x][snake_head_y] = 0;
+                a[snake_head_x-1][snake_head_y] = 1;
+                snake_head_x -= 1;
+            }
+            printscreen(a,0);
+        }
+        else if(keyboard_direction == 75)//LEFT
+        {
+            if(snake_head_y != 0)
+            {
+                a[snake_head_x][snake_head_y] = 0;
+                a[snake_head_x][snake_head_y-1] = 1;
+                snake_head_y -= 1;
+            }
+            printscreen(a,0);
+        }
+
+
+    }
+    while(1);
+
+
+
+
+    return 0;
+}
+
+/*
 int main()
 {
     int Screen[10][10] = {0};
@@ -68,6 +152,7 @@ int main()
     }
     return 0;
 }
+*/
 
 /*
 // How to input
