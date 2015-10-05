@@ -1,3 +1,4 @@
+
 //Funny-Snake Game
 //Code by Covey
 //2015/09/30 14:00  Movement controlled point       Version 1.00
@@ -5,6 +6,7 @@
 //2015/10/02 16:00  Spend 2 hours to debug which "=" written as "==" TAT Version 1.01
 //2015/10/05 21:00  Optimize the program structure  Version 1.02
 //2015/10/05 22:16  Release version                 Version 2.0
+//2015/10/05 23:24  Optimize food appear time       Version 2.1
 
 #include <stdio.h>
 #include <windows.h>
@@ -151,6 +153,7 @@ int main()
     int snake_head_y = 3;            //location of snake head of y
     int food_location[10][10] = {0}; //
     int if_get_direction = 0;        //
+    int latency = 400;               // default 400ms
     int score = 0;
 
     //Star getch thread
@@ -170,28 +173,7 @@ int main()
     printscreen(a,0,score);
     do
     {
-        //Add food when food was eaten
-        {
-            int i = 0;
-            int j = 0;
-            int count = 0;
-            for(i=0;i<10;i++)
-            {
-                for(j=0;j<10;j++)
-                {
-                    if (a[i][j] == -1)
-                    {
-                        count++;
-                    }
-                }
-            }
-            if(count == 0)
-            {
-                random_food(p_a);
-                snake_length++;
-                score++;
-            }
-        }
+
         //IF INPUT NEGATIVE DIRECTION,KEEP LAST DIRECTION
         if(if_negative_direction(snake_direction,last_snake_direction,p_snake_direction))
         {
@@ -228,8 +210,29 @@ int main()
                 game_over(score);
                 break;
             }
-
-            printscreen(a,500,score);
+                       //Add food when food was eaten
+            {
+                int i = 0;
+                int j = 0;
+                int count = 0;
+                for(i=0;i<10;i++)
+                {
+                    for(j=0;j<10;j++)
+                    {
+                        if (a[i][j] == -1)
+                        {
+                            count++;
+                        }
+                    }
+                }
+                if(count == 0)
+                {
+                    random_food(p_a);
+                    snake_length++;
+                    score++;
+                }
+            }
+            printscreen(a,latency,score);
         }
         else if(snake_direction == 80)//INPUT DOWN
         {
@@ -256,8 +259,29 @@ int main()
                 game_over(score);
                 break;
             }
-
-            printscreen(a,500,score);
+                       //Add food when food was eaten
+            {
+                int i = 0;
+                int j = 0;
+                int count = 0;
+                for(i=0;i<10;i++)
+                {
+                    for(j=0;j<10;j++)
+                    {
+                        if (a[i][j] == -1)
+                        {
+                            count++;
+                        }
+                    }
+                }
+                if(count == 0)
+                {
+                    random_food(p_a);
+                    snake_length++;
+                    score++;
+                }
+            }
+            printscreen(a,latency,score);
         }
         else if(snake_direction == 72)//INPUT UP
         {
@@ -284,7 +308,29 @@ int main()
                 game_over(score);
                 break;
             }
-             printscreen(a,500,score);
+                       //Add food when food was eaten
+            {
+                int i = 0;
+                int j = 0;
+                int count = 0;
+                for(i=0;i<10;i++)
+                {
+                    for(j=0;j<10;j++)
+                    {
+                        if (a[i][j] == -1)
+                        {
+                            count++;
+                        }
+                    }
+                }
+                if(count == 0)
+                {
+                    random_food(p_a);
+                    snake_length++;
+                    score++;
+                }
+            }
+            printscreen(a,latency,score);
         }
         else if(snake_direction == 75)//INPUT LEFT
         {
@@ -311,7 +357,30 @@ int main()
                 game_over(score);
                 break;
             }
-            printscreen(a,500,score);
+
+           //Add food when food was eaten
+            {
+                int i = 0;
+                int j = 0;
+                int count = 0;
+                for(i=0;i<10;i++)
+                {
+                    for(j=0;j<10;j++)
+                    {
+                        if (a[i][j] == -1)
+                        {
+                            count++;
+                        }
+                    }
+                }
+                if(count == 0)
+                {
+                    random_food(p_a);
+                    snake_length++;
+                    score++;
+                }
+            }
+            printscreen(a,latency,score);
         }
 
     }//END DO
