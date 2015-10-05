@@ -3,6 +3,7 @@
 //2015/09/30 14:00  Movement controlled point       Version 1.00
 //2015/10/02 00:55  Add negative direction control  Version 1.01 Beta
 //2015/10/02 16:00  Spend 2 hours to debug which "=" written as "==" TAT Version 1.01
+//2015/10/05 21:00  Optimize the program structure  Version 1.02
 
 #include <stdio.h>
 #include <windows.h>
@@ -19,18 +20,13 @@ DWORD WINAPI ThreadProc1( LPVOID lpParam )
         get_direction(p_snake_direction);   //Monitor keyboard input
     }
 }
-//game_over(int s)
-//{
-//    ;
-//}
-//print screen
 void printscreen(int a[10][10], int t)
 {
     int i = 0;
     int j = 0;
     int k = 0;
     int width = 10;
-    system("cls");
+    system("cls");//Clean screen
     for(i=0; i<width+1; i++)printf("##");
     printf("\b ");
     for(j=0; j<width; j++)
@@ -38,13 +34,17 @@ void printscreen(int a[10][10], int t)
         printf("\n#");
         for(k=0; k<width; k++)
         {
-            if(a[j][k] >= 1)
+            if(a[j][k] >= 1)      //snake body
             {
                 printf("* ");
             }
+            else if(a[j][k] == -1)//food
+            {
+                printf("& ");
+            }
             else
             {
-                printf("  ");
+                printf("  ");     //blank
             }
             //printf("%d ",a[j][k]);
         }
@@ -84,21 +84,71 @@ void game_over()
     printf("\n");
     for(i=0; i<21; i++)printf("#");
 }
+//void random_food(int *pointer)
+//{
+//    int n = 0;
+//    int m = 0;
+//    int i = 0;
+//    int conflict = 1;
+//    do
+//    {
+//        srand(GetTickCount());
+//        n = rand()%(0-10);
+//        i++;
+//        srand(GetTickCount()+i);
+//        m = rand()%(0-10);
+//
+//        if(a[n][m] == 0)
+//        {
+//            a[n][m] = -1;
+//            conflict = 0;
+//        }
+//    }
+//    while(conflict);
+//
+//}
 //Start
+int if_negative_direction(int snake_direction,int last_snake_direction,int *pointer)
+{
+    int i = 0;
+        if(snake_direction == 77&&last_snake_direction == 75)
+    {
+        *pointer = 75;
+        i = 1;
+        //continue;
+    }
+    else if(snake_direction == 80&&last_snake_direction == 72)
+    {
+        *pointer = 72;
+        i = 1;
+        //continue;
+    }
+    else if(snake_direction == 72&&last_snake_direction == 80)
+    {
+        *pointer = 80;
+        i = 1;
+        //continue;
+    }
+    else if(snake_direction == 75&&last_snake_direction == 77)
+    {
+        *pointer = 77;
+        i = 1;
+        //continue;
+    }
+    return i;
+}
 int main()
 {
     int a[10][10] = {0};             //snake pixel point location
-    //int pixel_live[10][10] = {0};  //pixel live time
+    int *p_a = &a;                   //pointer of a
     int last_snake_direction = snake_direction;
-    int snake_length = 5;            //don't change
-
-
+    int snake_length = 5;            //
     int snake_head_x = 0;            //location of snake head of x
     int snake_head_y = 3;            //location of snake head of y
     int food_location[10][10] = {0}; //
     int if_get_direction = 0;        //
 
-    //
+    //Star getch thread
     CreateThread(
     NULL,                            // default security attributes
     0,                               // use default stack size
@@ -109,32 +159,13 @@ int main()
 
     //set snake head location
     a[snake_head_x][snake_head_y]   = snake_length;
-    //a[snake_head_x][snake_head_y-1] = 3;
-    //a[snake_head_x][snake_head_y-2] = 2;
-    //a[snake_head_x][snake_head_y-2] = 1;
+
     printscreen(a,0);
     do
     {
         //IF INPUT NEGATIVE DIRECTION,KEEP LAST DIRECTION
-        if(snake_direction == 77&&last_snake_direction == 75)
+        if(if_negative_direction(snake_direction,last_snake_direction,p_snake_direction))
         {
-            snake_direction = 75;
-            continue;
-        }
-        else if(snake_direction == 80&&last_snake_direction == 72)
-        {
-            snake_direction = 72;
-            continue;
-        }
-        else if(snake_direction == 72&&last_snake_direction == 80)
-        {
-            snake_direction = 80;
-            continue;
-        }
-        else if(snake_direction == 75&&last_snake_direction == 77)
-        {
-            snake_direction = 77;
-           // printf("888888888888888888888888888");
             continue;
         }
 
@@ -190,6 +221,11 @@ int main()
                 snake_head_x += 1;
                 last_snake_direction = 80;
             }
+            else
+            {
+                game_over();
+                break;
+            }
 
             printscreen(a,500);
         }
@@ -213,6 +249,11 @@ int main()
                 snake_head_x -= 1;
                 last_snake_direction = 72;
             }
+            else
+            {
+                game_over();
+                break;
+            }
              printscreen(a,500);
         }
         else if(snake_direction == 75)//INPUT LEFT
@@ -234,6 +275,11 @@ int main()
                 a[snake_head_x][snake_head_y-1] = snake_length;
                 snake_head_y -= 1;
                 last_snake_direction = 75;
+            }
+            else
+            {
+                game_over();
+                break;
             }
             printscreen(a,500);
         }
