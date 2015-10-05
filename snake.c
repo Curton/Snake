@@ -4,6 +4,7 @@
 //2015/10/02 00:55  Add negative direction control  Version 1.01 Beta
 //2015/10/02 16:00  Spend 2 hours to debug which "=" written as "==" TAT Version 1.01
 //2015/10/05 21:00  Optimize the program structure  Version 1.02
+//2015/10/05 22:16  Release version                 Version 2.0
 
 #include <stdio.h>
 #include <windows.h>
@@ -20,7 +21,7 @@ DWORD WINAPI ThreadProc1( LPVOID lpParam )
         get_direction(p_snake_direction);   //Monitor keyboard input
     }
 }
-void printscreen(int a[10][10], int t)
+void printscreen(int a[10][10], int t,int score)
 {
     int i = 0;
     int j = 0;
@@ -53,7 +54,7 @@ void printscreen(int a[10][10], int t)
     printf("\n");
     for(i=0; i<width+1; i++)printf("##");
     printf("\b ");
-
+    printf("\nScore: %d",score);
     Sleep(t);
 
 
@@ -73,40 +74,43 @@ int get_direction(int *pointer)
     }
     *pointer = key_2;
 }
-void game_over()
+void game_over(int score)
 {
     int i = 0;
     system("cls");
     for(i=0; i<21; i++)printf("#");
     for(i=0;i<4;i++)printf("\n#                   #");
     printf("\n#    GAME OVER!     #");
-    for(i=0;i<5;i++)printf("\n#                   #");
+    printf("\n#    YOUR SCORE:    #");
+    printf("\n#       %03d         #");
+    for(i=0;i<4;i++)printf("\n#                   #");
     printf("\n");
     for(i=0; i<21; i++)printf("#");
 }
-//void random_food(int *pointer)
-//{
-//    int n = 0;
-//    int m = 0;
-//    int i = 0;
-//    int conflict = 1;
-//    do
-//    {
-//        srand(GetTickCount());
-//        n = rand()%(0-10);
-//        i++;
-//        srand(GetTickCount()+i);
-//        m = rand()%(0-10);
-//
-//        if(a[n][m] == 0)
-//        {
-//            a[n][m] = -1;
-//            conflict = 0;
-//        }
-//    }
-//    while(conflict);
-//
-//}
+void random_food(int *pointer)
+{
+    int n = 0;
+    int m = 0;
+    int i = 0;
+    int x = 0;
+    int conflict = 1;
+    do
+    {
+        srand(GetTickCount());
+        n = rand()%(0-10);
+        i++;
+        srand(GetTickCount()+i);
+        m = rand()%(0-10);
+        x = 10*n+m;
+        if(*(pointer+x) == 0)
+        {
+            *(pointer+x) = -1;
+            conflict = 0;
+        }
+    }
+    while(conflict);
+
+}
 //Start
 int if_negative_direction(int snake_direction,int last_snake_direction,int *pointer)
 {
@@ -142,11 +146,12 @@ int main()
     int a[10][10] = {0};             //snake pixel point location
     int *p_a = &a;                   //pointer of a
     int last_snake_direction = snake_direction;
-    int snake_length = 5;            //
+    int snake_length = 4;            //
     int snake_head_x = 0;            //location of snake head of x
     int snake_head_y = 3;            //location of snake head of y
     int food_location[10][10] = {0}; //
     int if_get_direction = 0;        //
+    int score = 0;
 
     //Star getch thread
     CreateThread(
@@ -159,10 +164,34 @@ int main()
 
     //set snake head location
     a[snake_head_x][snake_head_y]   = snake_length;
-
-    printscreen(a,0);
+    random_food(p_a);
+    //a[5][5] = -1;
+    //printf("%d",a[5][5]);
+    printscreen(a,0,score);
     do
     {
+        //Add food when food was eaten
+        {
+            int i = 0;
+            int j = 0;
+            int count = 0;
+            for(i=0;i<10;i++)
+            {
+                for(j=0;j<10;j++)
+                {
+                    if (a[i][j] == -1)
+                    {
+                        count++;
+                    }
+                }
+            }
+            if(count == 0)
+            {
+                random_food(p_a);
+                snake_length++;
+                score++;
+            }
+        }
         //IF INPUT NEGATIVE DIRECTION,KEEP LAST DIRECTION
         if(if_negative_direction(snake_direction,last_snake_direction,p_snake_direction))
         {
@@ -175,15 +204,16 @@ int main()
         }
         else if(snake_direction == 77)//INPUT RIGHT
         {
-            if(snake_head_y != 9)//NOT IMPACT WITH THE EDGE
+            if(snake_head_y != 9 && a[snake_head_x][snake_head_y+1] <= 0)//NOT IMPACT WITH THE EDGE
             {
+
                 int i = 0;
                 int j = 0;
                 for(i=0;i<10;i++)
                 {
                     for(j=0;j<10;j++)
                     {
-                        if (a[i][j] != 0)
+                        if (a[i][j] != 0 && a[i][j] > 0)
                         {
                             a[i][j] --;
                         }
@@ -195,15 +225,15 @@ int main()
             }
             else
             {
-                game_over();
+                game_over(score);
                 break;
             }
 
-            printscreen(a,500);
+            printscreen(a,500,score);
         }
         else if(snake_direction == 80)//INPUT DOWN
         {
-            if(snake_head_x != 9)
+            if(snake_head_x != 9 && a[snake_head_x+1][snake_head_y] <= 0)
             {
                 int i = 0;
                 int j = 0;
@@ -211,7 +241,7 @@ int main()
                 {
                     for(j=0;j<10;j++)
                     {
-                        if (a[i][j] != 0)
+                        if (a[i][j] != 0 && a[i][j] > 0)
                         {
                             a[i][j] --;
                         }
@@ -223,15 +253,15 @@ int main()
             }
             else
             {
-                game_over();
+                game_over(score);
                 break;
             }
 
-            printscreen(a,500);
+            printscreen(a,500,score);
         }
         else if(snake_direction == 72)//INPUT UP
         {
-            if(snake_head_x != 0)
+            if(snake_head_x != 0 && a[snake_head_x-1][snake_head_y] <= 0)
             {
                 int i = 0;
                 int j = 0;
@@ -239,7 +269,7 @@ int main()
                 {
                     for(j=0;j<10;j++)
                     {
-                        if (a[i][j] != 0)
+                        if (a[i][j] != 0 && a[i][j] > 0)
                         {
                             a[i][j] --;
                         }
@@ -251,14 +281,14 @@ int main()
             }
             else
             {
-                game_over();
+                game_over(score);
                 break;
             }
-             printscreen(a,500);
+             printscreen(a,500,score);
         }
         else if(snake_direction == 75)//INPUT LEFT
         {
-            if(snake_head_y != 0)
+            if(snake_head_y != 0 && a[snake_head_x][snake_head_y-1] <= 0)
             {
                 int i = 0;
                 int j = 0;
@@ -266,7 +296,7 @@ int main()
                 {
                     for(j=0;j<10;j++)
                     {
-                        if (a[i][j] != 0)
+                        if (a[i][j] != 0 && a[i][j] > 0)
                         {
                             a[i][j] --;
                         }
@@ -278,10 +308,10 @@ int main()
             }
             else
             {
-                game_over();
+                game_over(score);
                 break;
             }
-            printscreen(a,500);
+            printscreen(a,500,score);
         }
 
     }//END DO
