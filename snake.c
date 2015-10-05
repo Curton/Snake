@@ -7,6 +7,7 @@
 //2015/10/05 22:16  Release version                 Version 2.0
 //2015/10/05 23:24  Optimize food appear time       Version 2.1
 //2015/10/06 00:02  Add after game over wait time   Version 2.11
+//2015/10/06 00:42  Add auto increase difficulty    Version 2.2
 
 #include <stdio.h>
 #include <windows.h>
@@ -57,6 +58,11 @@ void printscreen(int a[10][10], int t,int score)
     for(i=0; i<width+1; i++)printf("##");
     printf("\b ");
     printf("\nScore: %d",score);
+    //don't make too difficult
+    if(t < 250)
+    {
+        t = 250;
+    }
     Sleep(t);
 
 
@@ -152,15 +158,13 @@ int main()
     int a[10][10] = {0};             // snake pixel point location
     int *p_a = &a;                   // pointer of a
     int last_snake_direction = snake_direction;
-    int snake_length = 4;            //
+    int snake_length = 4;            // initial snake length
     int snake_head_x = 0;            // location of snake head of x
-    int snake_head_y = 3;            // location of snake head of y
-    int food_location[10][10] = {0}; //
-    int if_get_direction = 0;        //
-    int latency = 400;               // default 400ms
-    int score = 0;
+    int snake_head_y = 0;            // location of snake head of y
+    int latency = 400;               // default 400ms,lower 250ms is invalid
+    int score = 0;                   // do not change this value to cheating
 
-    //Star getch thread
+                                     //Star getch thread
     CreateThread(
     NULL,                            // default security attributes
     0,                               // use default stack size
@@ -169,8 +173,6 @@ int main()
     0,                               // use default creation flags
     NULL);                           // returns the thread identifier
 
-                                     //set snake head location
-    a[snake_head_x][snake_head_y]   = snake_length;
     random_food(p_a);                // initialize snake food
     printscreen(a,0,score);          // print first screen
     do
@@ -232,6 +234,7 @@ int main()
                     random_food(p_a);
                     snake_length++;
                     score++;
+                    latency -= score; // Auto increase difficulty
                 }
             }
             printscreen(a,latency,score);
@@ -281,6 +284,7 @@ int main()
                     random_food(p_a);
                     snake_length++;
                     score++;
+                    latency -= score; // Auto increase difficulty
                 }
             }
             printscreen(a,latency,score);
@@ -330,6 +334,7 @@ int main()
                     random_food(p_a);
                     snake_length++;
                     score++;
+                    latency -= score; // Auto increase difficulty
                 }
             }
             printscreen(a,latency,score);
@@ -380,11 +385,11 @@ int main()
                     random_food(p_a);
                     snake_length++;
                     score++;
+                    latency -= score; // Auto increase difficulty
                 }
             }
             printscreen(a,latency,score);
         }
-
     }//END DO
 
 
@@ -400,12 +405,14 @@ int main()
 
 
 /*
-// How record input value to a[][]
+// How record input value to a[10][10]:
+// The value is pixel live time, so the biggest value represent snake head
 int main()
 {
     int a[10][10] =
     {
     //   0 1 2 3 4 5 6 7 8 9
+
         {0,0,0,0,0,0,0,0,0,0},//0
         {0,0,0,0,0,0,0,0,0,0},//1
         {0,0,0,0,0,0,0,0,0,0},//2
