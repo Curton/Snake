@@ -8,6 +8,7 @@
 //2015/10/05 23:24  Optimize food appear time       Version 2.1
 //2015/10/06 00:02  Add after game over wait time   Version 2.11
 //2015/10/06 00:42  Add auto increase difficulty    Version 2.2
+//2015/10/06 16:27  Snake extend at the end         Version 2.3
 
 #include <stdio.h>
 #include <windows.h>
@@ -59,9 +60,9 @@ void printscreen(int a[10][10], int t,int score)
     printf("\b ");
     printf("\nScore: %d",score);
     //don't make too difficult
-    if(t < 250)
+    if(t < 200)
     {
-        t = 250;
+        t = 200;
     }
     Sleep(t);
 
@@ -231,6 +232,51 @@ int main()
                 }
                 if(count == 0)
                 {
+                    {
+                        int i = 0;
+                        int j = 0;
+                        int count = 0;
+                        for(i=0;i<10;i++)
+                        {
+                            for(j=0;j<10;j++)
+                            {
+                                if (a[i][j] > 0)
+                                {
+                                    a[i][j] ++;
+                                }
+                            }
+                        }
+                    }
+
+                    {
+                        int i = 0;
+                        int j = 0;
+                        int count = 0;
+                        for(i=0;i<10;i++)
+                        {
+                            for(j=0;j<10;j++)
+                            {
+
+                                if (a[i][j] == 2 && a[i][j+1] == 3)
+                                {
+                                    a[i][j-1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i][j-1] == 3)
+                                {
+                                    a[i][j+1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i+1][j] == 3)
+                                {
+                                    a[i-1][j] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i-1][j] == 3)
+                                {
+                                    a[i+1][j] = 1;
+                                }
+                            }
+                        }
+                    }
+
                     random_food(p_a);
                     snake_length++;
                     score++;
@@ -281,6 +327,49 @@ int main()
                 }
                 if(count == 0)
                 {
+                    int i = 0;
+                    int j = 0;
+                    int count = 0;
+                    for(i=0;i<10;i++)
+                    {
+                        for(j=0;j<10;j++)
+                        {
+                            if (a[i][j] > 0)
+                            {
+                                a[i][j] ++;
+                            }
+
+                        }
+                    }
+
+                    {
+                        int i = 0;
+                        int j = 0;
+                        int count = 0;
+                        for(i=0;i<10;i++)
+                        {
+                            for(j=0;j<10;j++)
+                            {
+
+                                if (a[i][j] == 2 && a[i][j+1] == 3)
+                                {
+                                    a[i][j-1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i][j-1] == 3)
+                                {
+                                    a[i][j+1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i+1][j] == 3)
+                                {
+                                    a[i-1][j] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i-1][j] == 3)
+                                {
+                                    a[i+1][j] = 1;
+                                }
+                            }
+                        }
+                    }
                     random_food(p_a);
                     snake_length++;
                     score++;
@@ -331,6 +420,47 @@ int main()
                 }
                 if(count == 0)
                 {
+                    int i = 0;
+                    int j = 0;
+                    int count = 0;
+                    for(i=0;i<10;i++)
+                    {
+                        for(j=0;j<10;j++)
+                        {
+                            if (a[i][j] > 0)
+                            {
+                                a[i][j] ++;
+                            }
+                        }
+                    }
+                    {
+                        int i = 0;
+                        int j = 0;
+                        int count = 0;
+                        for(i=0;i<10;i++)
+                        {
+                            for(j=0;j<10;j++)
+                            {
+
+                                if (a[i][j] == 2 && a[i][j+1] == 3)
+                                {
+                                    a[i][j-1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i][j-1] == 3)
+                                {
+                                    a[i][j+1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i+1][j] == 3)
+                                {
+                                    a[i-1][j] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i-1][j] == 3)
+                                {
+                                    a[i+1][j] = 1;
+                                }
+                            }
+                        }
+                    }
                     random_food(p_a);
                     snake_length++;
                     score++;
@@ -382,10 +512,52 @@ int main()
                 }
                 if(count == 0)
                 {
+                    int i = 0;
+                    int j = 0;
+                    int count = 0;
+                    for(i=0;i<10;i++)
+                    {
+                        for(j=0;j<10;j++)
+                        {
+                            if (a[i][j] > 0)
+                            {
+                                a[i][j] ++;
+                            }
+                        }
+                    }
+
+                    {
+                        int i = 0;
+                        int j = 0;
+                        int count = 0;
+                        for(i=0;i<10;i++)
+                        {
+                            for(j=0;j<10;j++)
+                            {
+
+                                if (a[i][j] == 2 && a[i][j+1] == 3)
+                                {
+                                    a[i][j-1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i][j-1] == 3)
+                                {
+                                    a[i][j+1] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i+1][j] == 3)
+                                {
+                                    a[i-1][j] = 1;
+                                }
+                                else if(a[i][j] == 2 && a[i-1][j] == 3)
+                                {
+                                    a[i+1][j] = 1;
+                                }
+                            }
+                        }
+                    }
                     random_food(p_a);
                     snake_length++;
                     score++;
-                    latency -= score; // Auto increase difficulty
+                    latency -= 10; // Auto increase difficulty
                 }
             }
             printscreen(a,latency,score);
