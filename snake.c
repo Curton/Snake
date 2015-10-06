@@ -1,23 +1,40 @@
 //Funny-Snake Game
 //Code by Covey
-//2015/09/30 14:00  Movement controlled point       Version 1.0
-//2015/10/02 00:55  Add negative direction control  Version 1.01 Beta
-//2015/10/02 16:00  Spend 2 hours to debug which "=" written as "==" TAT Version 1.01
-//2015/10/05 21:00  Optimize the program structure  Version 1.02
-//2015/10/05 22:16  Release version                 Version 2.0
-//2015/10/05 23:24  Optimize food appear time       Version 2.1
-//2015/10/06 00:02  Add after game over wait time   Version 2.11
-//2015/10/06 00:42  Add auto increase difficulty    Version 2.2
-//2015/10/06 16:27  Snake extend at the end         Version 2.3
-//2015/10/06 18:46  Improve program structure       Version 2.31
+//2015/09/30 14:00  Movement controlled point       Version 1.0.0
+//2015/10/02 00:55  Add negative direction control  Version 1.0.1 Beta
+//2015/10/02 16:00  Spend 2 hours to debug which "=" written as "==" TAT Version 1.0.1
+//2015/10/05 21:00  Optimize the program structure  Version 1.0.2
+//2015/10/05 22:16  Release version                 Version 2.0.0
+//2015/10/05 23:24  Optimize food appear time       Version 2.1.0
+//2015/10/06 00:02  Add after game over wait time   Version 2.1.1
+//2015/10/06 00:42  Add auto increase difficulty    Version 2.2.0
+//2015/10/06 16:27  Snake extend at the end         Version 2.3.0
+//2015/10/06 18:46  Improve program structure       Version 2.3.1
+
+//2015/10/06 23:15  Adapt with Microsoft VS2010     Version 2.3.2
 
 #include <stdio.h>
-#include <windows.h>
+#include <Windows.h>
 #include <time.h>
+#include <conio.h>
 
 int snake_direction = 77;                   // snake start movement direction
 int *p_snake_direction = &snake_direction;  // the pointer of ...
-
+// 72->UP   80->DOWN    75->LEFT    77->RIGHT   0->ERROR
+void get_direction(int *pointer)
+{
+    int key_1 = getch();
+    int key_2 = 0;
+    if(key_1 == 224)
+    {
+        key_2 = getch();
+    }
+    else if(key_1 == 72||key_1 == 75||key_1 == 77||key_1 == 80)
+    {
+        key_2 = key_1;
+    }
+    *pointer = key_2;
+}
 //Keyboard getch thread
 DWORD WINAPI ThreadProc1( LPVOID lpParam )
 {
@@ -70,21 +87,7 @@ void printscreen(int a[10][10], int t,int score)
 
 
 }
-// 72->UP   80->DOWN    75->LEFT    77->RIGHT   0->ERROR
-void get_direction(int *pointer)
-{
-    int key_1 = getch();
-    int key_2 = 0;
-    if(key_1 == 224)
-    {
-        key_2 = getch();
-    }
-    else if(key_1 == 72||key_1 == 75||key_1 == 77||key_1 == 80)
-    {
-        key_2 = key_1;
-    }
-    *pointer = key_2;
-}
+
 // print game over screen
 void game_over(int score)
 {
@@ -94,7 +97,7 @@ void game_over(int score)
     for(i=0;i<4;i++)printf("\n#                   #");
     printf("\n#    GAME OVER!     #");
     printf("\n#    YOUR SCORE:    #");
-    printf("\n#       %03d         #");
+    printf("\n#       %03d         #", score);
     for(i=0;i<4;i++)printf("\n#                   #");
     printf("\n");
     for(i=0; i<21; i++)printf("#");
@@ -158,13 +161,13 @@ int if_negative_direction(int snake_direction,int last_snake_direction,int *poin
 void ready()
 {
     printf("READY...3");
-    sleep(1);
+    Sleep(1000);
     system("cls");
     printf("READY...2");
-    sleep(1);
+    Sleep(1000);
     system("cls");
     printf("READY...1");
-    sleep(1);
+    Sleep(1000);
     system("cls");
 }
 //Start game
@@ -585,7 +588,7 @@ int main()
     while(1); //DOUBLE CLICK TO SEE WHRER "break"
 
 
-    sleep(100);
+    Sleep(100000);
 
     return 0;
 }
