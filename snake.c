@@ -1,6 +1,6 @@
 //Funny-Snake Game
 //Code by Covey
-//2015/09/30 14:00  Movement controlled point       Version 1.00
+//2015/09/30 14:00  Movement controlled point       Version 1.0
 //2015/10/02 00:55  Add negative direction control  Version 1.01 Beta
 //2015/10/02 16:00  Spend 2 hours to debug which "=" written as "==" TAT Version 1.01
 //2015/10/05 21:00  Optimize the program structure  Version 1.02
@@ -9,6 +9,7 @@
 //2015/10/06 00:02  Add after game over wait time   Version 2.11
 //2015/10/06 00:42  Add auto increase difficulty    Version 2.2
 //2015/10/06 16:27  Snake extend at the end         Version 2.3
+//2015/10/06 18:46  Improve program structure       Version 2.31
 
 #include <stdio.h>
 #include <windows.h>
@@ -25,6 +26,7 @@ DWORD WINAPI ThreadProc1( LPVOID lpParam )
         get_direction(p_snake_direction);   // Monitor keyboard input
     }
 }
+// print the game
 void printscreen(int a[10][10], int t,int score)
 {
     int i = 0;
@@ -69,7 +71,7 @@ void printscreen(int a[10][10], int t,int score)
 
 }
 // 72->UP   80->DOWN    75->LEFT    77->RIGHT   0->ERROR
-int get_direction(int *pointer)
+void get_direction(int *pointer)
 {
     int key_1 = getch();
     int key_2 = 0;
@@ -96,7 +98,6 @@ void game_over(int score)
     for(i=0;i<4;i++)printf("\n#                   #");
     printf("\n");
     for(i=0; i<21; i++)printf("#");
-    sleep(100);
 }
 // random create food
 void random_food(int *pointer)
@@ -153,19 +154,32 @@ int if_negative_direction(int snake_direction,int last_snake_direction,int *poin
     }
     return i;
 }
+// READY for start
+void ready()
+{
+    printf("READY...3");
+    sleep(1);
+    system("cls");
+    printf("READY...2");
+    sleep(1);
+    system("cls");
+    printf("READY...1");
+    sleep(1);
+    system("cls");
+}
 //Start game
 int main()
 {
-    int a[10][10] = {0};             // snake pixel point location
-    int *p_a = &a;                   // pointer of a
     int last_snake_direction = snake_direction;
-    int snake_length = 4;            // initial snake length
-    int snake_head_x = 0;            // location of snake head of x
-    int snake_head_y = 0;            // location of snake head of y
-    int latency = 400;               // default 400ms,lower 250ms is invalid
-    int score = 0;                   // do not change this value to cheating
-
-                                     //Star getch thread
+    int a[10][10]     = {0};         // snake pixel point location
+    int *p_a          = &a;          // pointer of a
+    int snake_length  = 4;           // initial snake length
+    int snake_head_x  = 0;           // location of snake head of x
+    int snake_head_y  = 0;           // location of snake head of y
+    int latency       = 400;         // default 400ms,lower 200ms is invalid
+    int score         = 0;           // do not change this value to cheating
+    int wasd_support  = 0;           // invalid yet
+                                     // Start getch thread
     CreateThread(
     NULL,                            // default security attributes
     0,                               // use default stack size
@@ -175,7 +189,10 @@ int main()
     NULL);                           // returns the thread identifier
 
     random_food(p_a);                // initialize snake food
+    ready();                         // ready for start
     printscreen(a,0,score);          // print first screen
+
+
     do
     {
 
@@ -235,7 +252,7 @@ int main()
                     {
                         int i = 0;
                         int j = 0;
-                        int count = 0;
+                        //int count = 0;
                         for(i=0;i<10;i++)
                         {
                             for(j=0;j<10;j++)
@@ -251,7 +268,7 @@ int main()
                     {
                         int i = 0;
                         int j = 0;
-                        int count = 0;
+                        //int count = 0;
                         for(i=0;i<10;i++)
                         {
                             for(j=0;j<10;j++)
@@ -329,7 +346,7 @@ int main()
                 {
                     int i = 0;
                     int j = 0;
-                    int count = 0;
+                    //int count = 0;
                     for(i=0;i<10;i++)
                     {
                         for(j=0;j<10;j++)
@@ -345,7 +362,7 @@ int main()
                     {
                         int i = 0;
                         int j = 0;
-                        int count = 0;
+                        //int count = 0;
                         for(i=0;i<10;i++)
                         {
                             for(j=0;j<10;j++)
@@ -422,7 +439,7 @@ int main()
                 {
                     int i = 0;
                     int j = 0;
-                    int count = 0;
+                    //int count = 0;
                     for(i=0;i<10;i++)
                     {
                         for(j=0;j<10;j++)
@@ -437,7 +454,7 @@ int main()
                     {
                         int i = 0;
                         int j = 0;
-                        int count = 0;
+                        //int count = 0;
                         for(i=0;i<10;i++)
                         {
                             for(j=0;j<10;j++)
@@ -515,7 +532,7 @@ int main()
                 {
                     int i = 0;
                     int j = 0;
-                    int count = 0;
+                    //int count = 0;
                     for(i=0;i<10;i++)
                     {
                         for(j=0;j<10;j++)
@@ -530,7 +547,7 @@ int main()
                     {
                         int i = 0;
                         int j = 0;
-                        int count = 0;
+                        //int count = 0;
                         for(i=0;i<10;i++)
                         {
                             for(j=0;j<10;j++)
@@ -565,16 +582,13 @@ int main()
         }
     }//END DO
 
+    while(1); //DOUBLE CLICK TO SEE WHRER "break"
 
 
-    while(1);
-
-
-
+    sleep(100);
 
     return 0;
 }
-
 
 
 /*
