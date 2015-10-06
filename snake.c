@@ -202,11 +202,11 @@ int main()
                     {
                         if (a[i][j] != 0 && a[i][j] > 0)
                         {
-                            a[i][j] --;
+                            a[i][j] --; // all pixel live time minus 1
                         }
                     }
                 }
-                a[snake_head_x][snake_head_y+1] = snake_length;
+                a[snake_head_x][snake_head_y+1] = snake_length; // add pixel live time to snake head
                 snake_head_y += 1;
                 last_snake_direction = 77;//RECORD LAST MOVEMENT
             }
@@ -230,7 +230,7 @@ int main()
                         }
                     }
                 }
-                if(count == 0)
+                if(count == 0)// if eat food, all pixel live time plus 1
                 {
                     {
                         int i = 0;
@@ -247,7 +247,7 @@ int main()
                             }
                         }
                     }
-
+                    // add 1 pixel live time at the snake tail
                     {
                         int i = 0;
                         int j = 0;
@@ -256,7 +256,7 @@ int main()
                         {
                             for(j=0;j<10;j++)
                             {
-
+                                // Determine the direction of the tail
                                 if (a[i][j] == 2 && a[i][j+1] == 3)
                                 {
                                     a[i][j-1] = 1;
@@ -297,11 +297,11 @@ int main()
                     {
                         if (a[i][j] != 0 && a[i][j] > 0)
                         {
-                            a[i][j] --;
+                            a[i][j] --; // all pixel live time minus 1
                         }
                     }
                 }
-                a[snake_head_x+1][snake_head_y] = snake_length;
+                a[snake_head_x+1][snake_head_y] = snake_length; // add pixel live time to snake head
                 snake_head_x += 1;
                 last_snake_direction = 80;
             }
@@ -325,7 +325,7 @@ int main()
                         }
                     }
                 }
-                if(count == 0)
+                if(count == 0)// if eat food, all pixel live time plus 1
                 {
                     int i = 0;
                     int j = 0;
@@ -341,7 +341,7 @@ int main()
 
                         }
                     }
-
+                    // add 1 pixel live time at the snake tail
                     {
                         int i = 0;
                         int j = 0;
@@ -350,7 +350,7 @@ int main()
                         {
                             for(j=0;j<10;j++)
                             {
-
+                                // Determine the direction of the tail
                                 if (a[i][j] == 2 && a[i][j+1] == 3)
                                 {
                                     a[i][j-1] = 1;
@@ -390,11 +390,11 @@ int main()
                     {
                         if (a[i][j] != 0 && a[i][j] > 0)
                         {
-                            a[i][j] --;
+                            a[i][j] --; // all pixel live time minus 1
                         }
                     }
                 }
-                a[snake_head_x-1][snake_head_y] = snake_length;
+                a[snake_head_x-1][snake_head_y] = snake_length; // add pixel live time to snake head
                 snake_head_x -= 1;
                 last_snake_direction = 72;
             }
@@ -418,7 +418,7 @@ int main()
                         }
                     }
                 }
-                if(count == 0)
+                if(count == 0)// if eat food, all pixel live time plus 1
                 {
                     int i = 0;
                     int j = 0;
@@ -433,6 +433,7 @@ int main()
                             }
                         }
                     }
+                    // add 1 pixel live time at the snake tail
                     {
                         int i = 0;
                         int j = 0;
@@ -441,7 +442,7 @@ int main()
                         {
                             for(j=0;j<10;j++)
                             {
-
+                                // Determine the direction of the tail
                                 if (a[i][j] == 2 && a[i][j+1] == 3)
                                 {
                                     a[i][j-1] = 1;
@@ -481,11 +482,11 @@ int main()
                     {
                         if (a[i][j] != 0 && a[i][j] > 0)
                         {
-                            a[i][j] --;
+                            a[i][j] --; // all pixel live time minus 1
                         }
                     }
                 }
-                a[snake_head_x][snake_head_y-1] = snake_length;
+                a[snake_head_x][snake_head_y-1] = snake_length; // add pixel live time to snake head
                 snake_head_y -= 1;
                 last_snake_direction = 75;
             }
@@ -510,7 +511,7 @@ int main()
                         }
                     }
                 }
-                if(count == 0)
+                if(count == 0)// if eat food, all pixel live time plus 1
                 {
                     int i = 0;
                     int j = 0;
@@ -525,7 +526,7 @@ int main()
                             }
                         }
                     }
-
+                    // add 1 pixel live time at the snake tail
                     {
                         int i = 0;
                         int j = 0;
@@ -534,7 +535,7 @@ int main()
                         {
                             for(j=0;j<10;j++)
                             {
-
+                                // Determine the direction of the tail
                                 if (a[i][j] == 2 && a[i][j+1] == 3)
                                 {
                                     a[i][j-1] = 1;
