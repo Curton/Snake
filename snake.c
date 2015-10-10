@@ -12,10 +12,11 @@
 //2015/10/06 16:27  Snake extend at the end         Version 2.3.0
 //2015/10/06 18:46  Improve program structure       Version 2.3.1
 //2015/10/06 23:15  Adapt with Microsoft VS2010     Version 2.3.2
-//2015/10/06 21:18  Add ready time setting
+//2015/10/09 21:18  Add ready time setting
 //                  add WASD control support
 //                  Add restart game and comment
 //                  Add sound and debug mode        Version 2.5.0
+//2015/10/10        Improve the code quality        Version 2.5.1
 #include <stdio.h>
 #include <Windows.h>
 #include <time.h>
@@ -42,7 +43,7 @@ int main()
     int latency       = initial_difficulty;
     int last_snake_direction = snake_direction;
     int a[10][10]     = {0};         // snake pixel point location
-    int *p_a          = &a;          // pointer of a
+    //int *p_a          = a;          // pointer of a
     int snake_length  = 4;           // initial snake length
     int snake_head_x  = 0;           // location of snake head of x
     int snake_head_y  = 0;           // location of snake head of y
@@ -65,7 +66,7 @@ int main()
 
     do//DO 1: for restart the game
     {
-        random_food(p_a);                // initialize snake food
+        random_food(a);                // initialize snake food
         ready(ready_screen);             // ready for start
         printscreen(a,0,score);          // print first screen
 
@@ -170,7 +171,7 @@ int main()
                             }
                         }
                         printf("\a");
-                        random_food(p_a);
+                        random_food(a);
                         snake_length++;
                         score++;
                         latency -= score; // Auto increase difficulty
@@ -264,7 +265,7 @@ int main()
                             }
                         }
                         printf("\a");
-                        random_food(p_a);
+                        random_food(a);
                         snake_length++;
                         score++;
                         latency -= score; // Auto increase difficulty
@@ -357,7 +358,7 @@ int main()
                             }
                         }
                         printf("\a");
-                        random_food(p_a);
+                        random_food(a);
                         snake_length++;
                         score++;
                         latency -= score; // Auto increase difficulty
@@ -451,7 +452,7 @@ int main()
                             }
                         }
                         printf("\a");
-                        random_food(p_a);
+                        random_food(a);
                         snake_length++;
                         score++;
                         latency -= 10; // Auto increase difficulty
